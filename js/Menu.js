@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let control;
     let timer = 300;
     let first_move = true;
     let pausado = false;
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let btnReset = document.getElementById('restartGame');
     let img = document.querySelectorAll('.ficha');
     let img2 = document.querySelectorAll('.ficha2');
+    let reiniciar = document.getElementById('restartGame');
     let srcimg = "./assets/ficha2.jpg";
     let srcimg2 = "./assets/ficha1.jpg";
     canvas.width = 800;
@@ -37,11 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
         juego1.stopDragging();
     })
     function newGame() {
-        fichas.classList.remove('noneSize');
-        fichas1.classList.remove('noneSize');
-        fichas2.classList.remove('noneSize');
-        juego1 = new Juego(ctx, canvas.width, canvas.height,8);
+        fichas.classList.add('noneSize');
+        fichas1.classList.add('noneSize');
+        fichas2.classList.add('noneSize');
+        pausado = true;
+        parar();
+        juego1 = new Juego(ctx, canvas.width, canvas.height,0);
         juego1.draw();
+        juego1.selectLinea();
     }
     btnReset.addEventListener("click", newGame)
     img.forEach(element => {
@@ -56,6 +61,28 @@ document.addEventListener('DOMContentLoaded', () => {
             juego1.cambiarFicha2(element.src)
         })
     });
+
+    function inicio(){
+      control = setInterval(function(){
+            if(!pausado && juego1.gameOver == false){
+                timerHt.innerHTML = timer + " segundos";
+                timer--;
+                if(timer == -1){
+                    pausado = true;
+                    juego1.empate();
+                    parar();
+                }
+            }else{
+                timer = 300;
+                timerHt.innerHTML = timer + " segundos";
+                parar();
+            }
+        },1000);
+    }
+
+    function parar(){
+        clearInterval(control);
+    }
 
     size4.addEventListener("click", () => {
         timer = 300;
@@ -75,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let img2 = document.querySelectorAll('.ficha2');
         let srcimg = "./assets/ficha2.jpg";
         let srcimg2 = "./assets/ficha1.jpg";
+        reiniciar.disabled= false
         canvas.width = 800;
         canvas.height = 650;
         let ctx = canvas.getContext('2d');
@@ -88,21 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 first_move = false;
-                setInterval(function(){
-                    if(!pausado && juego1.gameOver == false){
-                        timerHt.innerHTML = timer + " segundos";
-                        timer--;
-                        if(timer == -1){
-                            pausado = true;
-                            juego1.empate();
-                            clearInterval();
-                        }
-                    }else{
-                        timer = 300;
-                        timerHt.innerHTML = timer + " segundos";
-                        clearInterval();
-                    }
-                },1000);
+                inicio();
             }else{
                 if (juego1.checkHit(eMouseDown.offsetX, eMouseDown.offsetY)) {
                     canvas.addEventListener('mousemove', (eMouseMove) => {
@@ -116,11 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
             juego1.stopDragging();
         })
         function newGame() {
-            fichas.classList.remove('noneSize');
-            fichas1.classList.remove('noneSize');
-            fichas2.classList.remove('noneSize');
-            juego1 = new Juego(ctx, canvas.width, canvas.height, size4.value);
+            fichas.classList.add('noneSize');
+            fichas1.classList.add('noneSize');
+            fichas2.classList.add('noneSize');
+            pausado = true;
+            parar();
+            juego1 = new Juego(ctx, canvas.width, canvas.height,0);
             juego1.draw();
+            juego1.selectLinea();
         }
         btnReset.addEventListener("click", newGame)
         img.forEach(element => {
@@ -151,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         size5.classList.add('noneSize');
         size6.classList.add('noneSize');
         size8.classList.add('noneSize');
+        reiniciar.disabled= false
         let canvas = document.getElementById('canvasGame');
         let btnReset = document.getElementById('restartGame');
         let img = document.querySelectorAll('.ficha');
@@ -170,21 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 first_move = false;
-                setInterval(function(){
-                    if(!pausado && juego1.gameOver == false){
-                        timerHt.innerHTML = timer + " segundos";
-                        timer--;
-                        if(timer == -1){
-                            pausado = true;
-                            juego1.empate();
-                            clearInterval();
-                        }
-                    }else{
-                        timer = 300;
-                        timerHt.innerHTML = timer + " segundos";
-                        clearInterval();
-                    }
-                },1000);
+                inicio();
             }else{
                 if (juego1.checkHit(eMouseDown.offsetX, eMouseDown.offsetY)) {
                     canvas.addEventListener('mousemove', (eMouseMove) => {
@@ -198,11 +202,14 @@ document.addEventListener('DOMContentLoaded', () => {
             juego1.stopDragging();
         })
         function newGame() {
-            fichas.classList.remove('noneSize');
-            fichas1.classList.remove('noneSize');
-            fichas2.classList.remove('noneSize');
-            juego1 = new Juego(ctx, canvas.width, canvas.height, size5.value);
+            fichas.classList.add('noneSize');
+            fichas1.classList.add('noneSize');
+            fichas2.classList.add('noneSize');
+            pausado = true;
+            parar();
+            juego1 = new Juego(ctx, canvas.width, canvas.height, 0);
             juego1.draw();
+            juego1.selectLinea();
         }
         btnReset.addEventListener("click", newGame)
         img.forEach(element => {
@@ -234,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         size5.classList.add('noneSize');
         size6.classList.add('noneSize');
         size8.classList.add('noneSize');
+        reiniciar.disabled= false
         let canvas = document.getElementById('canvasGame');
         let btnReset = document.getElementById('restartGame');
         let img = document.querySelectorAll('.ficha');
@@ -254,21 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 first_move = false;
-                setInterval(function(){
-                    if(!pausado && juego1.gameOver == false){
-                        timerHt.innerHTML = timer + " segundos";
-                        timer--;
-                        if(timer == -1){
-                            pausado = true;
-                            juego1.empate();
-                            clearInterval();
-                        }
-                    }else{
-                        timer = 300;
-                        timerHt.innerHTML = timer + " segundos";
-                        clearInterval();
-                    }
-                },1000);
+                inicio();
             }else{
                 if (juego1.checkHit(eMouseDown.offsetX, eMouseDown.offsetY)) {
                     canvas.addEventListener('mousemove', (eMouseMove) => {
@@ -282,11 +276,14 @@ document.addEventListener('DOMContentLoaded', () => {
             juego1.stopDragging();
         })
         function newGame() {
-            fichas.classList.remove('noneSize');
-            fichas1.classList.remove('noneSize');
-            fichas2.classList.remove('noneSize');
-            juego1 = new Juego(ctx, canvas.width, canvas.height, size5.value);
+            fichas.classList.add('noneSize');
+            fichas1.classList.add('noneSize');
+            fichas2.classList.add('noneSize');
+            pausado = true;
+            parar();
+            juego1 = new Juego(ctx, canvas.width, canvas.height,0);
             juego1.draw();
+            juego1.selectLinea();
         }
         btnReset.addEventListener("click", newGame)
         img.forEach(element => {
@@ -318,6 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
         size5.classList.add('noneSize');
         size6.classList.add('noneSize');
         size8.classList.add('noneSize');
+        reiniciar.disabled= false
         let canvas = document.getElementById('canvasGame');
         let btnReset = document.getElementById('restartGame');
         let img = document.querySelectorAll('.ficha');
@@ -338,21 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 first_move = false;
-                setInterval(function(){
-                    if(!pausado && juego1.gameOver == false){
-                        timerHt.innerHTML = timer + " segundos";
-                        timer--;
-                        if(timer == -1){
-                            pausado = true;
-                            juego1.empate();
-                            clearInterval();
-                        }
-                    }else{
-                        timer = 300;
-                        timerHt.innerHTML = timer + " segundos";
-                        clearInterval();
-                    }
-                },1000);
+                inicio();
             }else{
                 if (juego1.checkHit(eMouseDown.offsetX, eMouseDown.offsetY)) {
                     canvas.addEventListener('mousemove', (eMouseMove) => {
@@ -366,11 +350,14 @@ document.addEventListener('DOMContentLoaded', () => {
             juego1.stopDragging();
         })
         function newGame() {
-            fichas.classList.remove('noneSize');
-            fichas1.classList.remove('noneSize');
-            fichas2.classList.remove('noneSize');
-            juego1 = new Juego(ctx, canvas.width, canvas.height, size5.value);
+            fichas.classList.add('noneSize');
+            fichas1.classList.add('noneSize');
+            fichas2.classList.add('noneSize');
+            pausado = true;
+            parar();
+            juego1 = new Juego(ctx, canvas.width, canvas.height,0);
             juego1.draw();
+            juego1.selectLinea();
         }
         btnReset.addEventListener("click", newGame)
         img.forEach(element => {
@@ -391,6 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     size0.addEventListener("click", ()=>{
         pausado = true;
+        parar();
         juego1 = new Juego(ctx, canvas.width, canvas.height,0);
         juego1.draw();
         size4.classList.remove('noneSize');
